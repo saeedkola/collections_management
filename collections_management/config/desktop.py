@@ -7,7 +7,7 @@ def get_data():
 		{
 			"module_name": "Collections Management",
 			"color": "grey",
-			"icon": "fa fa-coins",
+			"icon": "fa fa-money",
 			"type": "module",
 			"label": _("Collections Management")
 		}
