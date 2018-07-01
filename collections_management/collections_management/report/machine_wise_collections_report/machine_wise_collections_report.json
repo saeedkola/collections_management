@@ -1,0 +1,24 @@
+{
+ "add_total_row": 1,
+ "apply_user_permissions": 1,
+ "creation": "2018-06-13 17:05:31.935808",
+ "disabled": 0,
+ "docstatus": 0,
+ "doctype": "Report",
+ "idx": 0,
+ "is_standard": "Yes",
+ "modified": "2018-06-13 17:05:36.113199",
+ "modified_by": "Administrator",
+ "module": "Collections Management",
+ "name": "Machine-Wise Collections Report",
+ "owner": "Administrator",
+ "query": "select \n\ta.machine_number as \"Machine No.:Link/Asset:100\",\n\ta.site as \"Site::100\",\n\tSUM(a.coins_expected) as \"Total Expected Coins:Int:100\",\n\tSUM(b.coin_count) as \"Total Counted Coins:Int:100\",\n\tSUM(b.error) as \"Error:Int:100\",\n\tCOUNT(a.machine_number) as \"No of Collections::100\",\n\tAVG(b.coin_count) as \"AVG Coins per Collection::150\"\nfrom `tabCollection Entry` a right join `tabCollection Counting` b \nON a.name = b.collection_entry\nGROUP BY a.machine_number, a.site",
+ "ref_doctype": "Collection Entry",
+ "report_name": "Machine-Wise Collections Report",
+ "report_type": "Script Report",
+ "roles": [
+  {
+   "role": "System Manager"
+  }
+ ]
+}
