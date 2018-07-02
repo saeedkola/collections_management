@@ -26,4 +26,4 @@ class CollectionEntry(Document):
 			else:
 				self.coins_expected = 0
 		else:
-			self.coins_expected = self.meter_reading	
+			self.coins_expected = self.meter_reading
