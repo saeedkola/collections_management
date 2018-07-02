@@ -9,7 +9,7 @@ from frappe.model.document import Document
 class CollectionEntry(Document):
 	def validate(self):
 		# get previous entry of the machine
-		last_transaction = frappe.get_list("Collection Entry",
+		last_transaction = frappe.get_all("Collection Entry",
 			fields=["meter_reading"],
 			filters = {
 				"machine_number": self.machine_number,
