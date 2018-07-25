@@ -54,8 +54,11 @@ def collection_entry_query(doctype, txt, searchfield, start, page_len, filters):
 	return frappe.db.sql("""select t1.name, t1.machine_number, t1.site from `tabCollection Entry` t1
 			left join `tabCollection Counting` t2 on t2.collection_entry = t1.name
 			where t2.name IS NULL and t1.entry_type = "Collection Entry"
-			and t1.`{key}` LIKE %(txt)s
+			and (t1.`{key}` LIKE %(txt)s
 				{condition} {match_condition}
+			or t1.machine_number LIKE %(txt)s
+				{condition} {match_condition}
+				)
 			order by t1.idx desc, t1.name"""
 			.format(condition=condition, match_condition=get_match_cond(doctype), key=searchfield), {
 				'txt': "%%%s%%" % frappe.db.escape(txt)
