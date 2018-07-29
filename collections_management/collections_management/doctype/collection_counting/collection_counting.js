@@ -6,7 +6,11 @@ frappe.ui.form.on('Collection Counting', {
 
 	},
 	coin_count: function(frm){
-		frm.set_value('error',frm.doc.expected_count-frm.doc.coin_count);
+		// frm.set_value('error',frm.doc.expected_count-frm.doc.coin_count);
+	},
+	barcode: function(frm){
+		frm.set_value('collection_entry',frm.doc.barcode);
+		frm.refresh_field('collection_entry');
 	}
 });
 
