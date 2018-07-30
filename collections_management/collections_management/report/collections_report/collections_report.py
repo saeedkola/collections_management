@@ -14,6 +14,7 @@ def execute(filters=None):
 	sqlq = """select 
 			creation as "Collected On :Date:150",
 			name as "Bag No.:Link/Collection Entry:100",
+			entry_type,
 			machine_number as "Machine No.:Link/Asset:100",	
 			site as "Site:Link/Warehouse:100",
 			meter_reading as "Meter Reading::100",	
@@ -31,6 +32,7 @@ def execute(filters=None):
 	columns = [
 		"Collected On :Date:150",
 		"Bag No.:Link/Collection Entry:100",
+		"Entry Type ::100",
 		"Machine No.:Link/Asset:100",
 		"Site:Link/Warehouse:100",
 		"Meter Reading::100",
