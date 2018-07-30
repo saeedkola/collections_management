@@ -1,17 +1,17 @@
 {
  "add_total_row": 1,
- "apply_user_permissions": 1,
  "creation": "2018-06-13 15:02:42.178135",
  "disabled": 0,
  "docstatus": 0,
  "doctype": "Report",
  "idx": 0,
  "is_standard": "Yes",
- "modified": "2018-06-13 15:02:42.178135",
+ "modified": "2018-07-30 19:25:29.113268",
  "modified_by": "Administrator",
  "module": "Collections Management",
  "name": "Collections Error Report",
  "owner": "Administrator",
+ "prepared_report": 0,
  "query": "select \n\ta.name as \"Bag No.:Link/Collection Entry:100\",\n\ta.machine_number as \"Machine No.:Link/Asset:100\",\t\n\ta.site as \"Site:Link/Warehouse:100\",\n\ta.meter_reading as \"Meter Reading::100\",\t\n\ta.previous_reading as \"Previous Reading::100\",\n\ta.coins_expected as \"Expected Coins:Int:100\",\n\tb.coin_count as \"Counted Coins:Int:100\",\n\tb.error as \"Error:Int:100\",\n\ta.owner as \"Collected By::100\",\n\tb.owner as \"Counted By::100\"\nfrom `tabCollection Entry` a left join `tabCollection Counting` b \nON a.name = b.collection_entry\nwhere a.machine_number like %(machine_number)s",
  "ref_doctype": "Collection Entry",
  "report_name": "Collections Error Report",
@@ -19,6 +19,12 @@
  "roles": [
   {
    "role": "System Manager"
+  },
+  {
+   "role": "Collection Account Manager"
+  },
+  {
+   "role": "Counting and Collection Manager"
   }
  ]
 }
