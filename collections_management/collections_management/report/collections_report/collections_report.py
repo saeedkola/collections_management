@@ -5,8 +5,6 @@ from __future__ import unicode_literals
 import frappe
 
 def execute(filters=None):
-	if not filters.machine_number:
-		filters.machine_number = ""
 	if not filters.site:
 		filters.site = ""
 	if not filters.collected_by:
@@ -22,11 +20,12 @@ def execute(filters=None):
 			coins_expected as "Expected Coins:Int:100",			
 			owner as "Collected By::100"
 		from `tabCollection Entry`
-		where machine_number like '%{}%'
-		and site like '%{}%'
+		where site like '%{}%'
 		and owner like '%{}%'
 		and creation BETWEEN '{}' AND '{}'
-		""".format(filters.machine_number,filters.site,filters.collected_by,filters.from_date,filters.to_date)
+		""".format(filters.site,filters.collected_by,filters.from_date,filters.to_date)
+	if filters.machine_number:
+		sqlq+="""and machine_number = '{}'""".format(filters.machine_number)
 	
 
 	columns = [
