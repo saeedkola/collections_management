@@ -28,12 +28,13 @@ def execute(filters=None):
 			b.modified as "Counted On:Date:150"
 		from `tabCollection Entry` a right join `tabCollection Counting` b 
 		ON a.name = b.collection_entry
-		where a.machine_number like '%{}%'
-		and a.site like '%{}%'
+		where a.site like '%{}%'
 		and a.owner like '%{}%'
 		and b.owner like '%{}%'
 		and a.creation BETWEEN '{}' AND '{}'
-		""".format(filters.machine_number,filters.site,filters.collected_by,filters.counted_by,filters.from_date,filters.to_date)
+		""".format(filters.site,filters.collected_by,filters.counted_by,filters.from_date,filters.to_date)
+	if filters.machine_number:
+		sqlq+="""and machine_number = '{}'""".format(filters.machine_number)
 	
 
 	columns = [
