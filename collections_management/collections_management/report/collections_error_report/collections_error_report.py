@@ -36,7 +36,7 @@ def execute(filters=None):
 	
 
 	columns = [
-		"Collected On :Date:150",
+		"Collected On:Date:150",
 		"Bag No.:Link/Collection Entry:100",
 		"Machine No.:Link/Asset:100",
 		"Site:Link/Warehouse:100",
