@@ -19,11 +19,11 @@ def execute(filters=None):
 
 	columns = [
 		"Collected By::100",
-		"Total Expected Coins:Int:100",
-		"Total Counted Coins:Int:100",
-		"Error:Int:100",
+		"Total Expected Coins:Currency:100",
+		"Total Counted Coins:Currency:100",
+		"Error:Currency:100",
 		"No of Collections::100"
 	]
 
-	data = frappe.db.sql(sqlq)
+	data = frappe.db.sql(sqlq,as_list=1)
 	return columns, data

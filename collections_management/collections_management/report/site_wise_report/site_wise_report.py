@@ -26,5 +26,5 @@ def execute(filters=None):
 		"AVG Coins per Collection::150"
 	]
 
-	data = frappe.db.sql(sqlq)
+	data = frappe.db.sql(sqlq,as_list=1)
 	return columns, data

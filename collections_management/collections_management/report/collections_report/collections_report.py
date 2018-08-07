@@ -13,11 +13,11 @@ def execute(filters=None):
 			creation as "Collected On :Date:150",
 			name as "Bag No.:Link/Collection Entry:100",
 			entry_type,
-			machine_number as "Machine No.:Link/Asset:100",	
+			machine_number as "Machine No.:Link/Asset:100",
 			site as "Site:Link/Warehouse:100",
-			meter_reading as "Meter Reading::100",	
+			meter_reading as "Meter Reading::100",
 			previous_reading as "Previous Reading::100",
-			coins_expected as "Expected Coins:Int:100",			
+			coins_expected as "Expected Coins::100",
 			owner as "Collected By::100"
 		from `tabCollection Entry`
 		where site like '%{}%'
@@ -36,10 +36,10 @@ def execute(filters=None):
 		"Site:Link/Warehouse:100",
 		"Meter Reading::100",
 		"Previous Reading::100",
-		"Expected Coins:Int:100",
+		"Expected Coins:Currrency:100",
 		"Collected By::100"
 	]
 
-	data = frappe.db.sql(sqlq)
+	data = frappe.db.sql(sqlq,as_list=1)
 	
 	return columns, data

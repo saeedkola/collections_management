@@ -14,22 +14,22 @@ def execute(filters=None):
 	if not filters.counted_by:
 		filters.counted_by = ""
 	sqlq = """select 
-			a.creation as "Collected On :Date:150",
-			a.name as "Bag No.:Link/Collection Entry:100",
-			a.machine_number as "Machine No.:Link/Asset:100",	
-			a.site as "Site:Link/Warehouse:100",
-			a.meter_reading as "Meter Reading::100",	
-			a.previous_reading as "Previous Reading::100",
-			a.coins_expected as "Expected Coins:Int:100",
-			b.coin_count as "Counted Coins:Int:100",
-			b.error as "Error:Int:100",
-			a.owner as "Collected By::100",
-			b.owner as "Counted By::100",
-			b.modified as "Counted On:Date:150"
+			a.creation,
+			a.name,
+			a.machine_number,	
+			a.site,
+			a.meter_reading,	
+			a.previous_reading,
+			a.coins_expected,
+			b.coin_count,
+			b.error,
+			a.owner,
+			b.owner,
+			b.modified
 		from `tabCollection Entry` a right join `tabCollection Counting` b 
 		ON a.name = b.collection_entry
 		where a.machine_number like '%{}%'
-		and a.site like '%{}%'
+		and coalesce(a.site, '<NULL>') like '%{}%'
 		and a.owner like '%{}%'
 		and b.owner like '%{}%'
 		and a.creation BETWEEN '{}' AND '{}'
@@ -43,14 +43,14 @@ def execute(filters=None):
 		"Site:Link/Warehouse:100",
 		"Meter Reading::100",
 		"Previous Reading::100",
-		"Expected Coins:Int:100",
-		"Counted Coins:Int:100",
-		"Error:Int:100",
+		"Expected Coins:Currency:100",
+		"Counted Coins:Currency:100",
+		"Error:Currency:100",
 		"Collected By::100",
 		"Counted By::100",
 		"Counted On:Date:150"
 	]
 
-	data = frappe.db.sql(sqlq)
+	data = frappe.db.sql(sqlq,as_list=1)
 	
 	return columns, data

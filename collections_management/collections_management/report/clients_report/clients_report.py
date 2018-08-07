@@ -30,7 +30,7 @@ def execute(filters=None):
 		"Machine No.:Link/Asset:100",
 		"Previous Reading::100",
 		"Meter Reading::100",
-		"Counted Coins:Int:100"
+		"Counted Coins:Currency:100"
 	]
 
 	data = frappe.db.sql(sqlq, as_list=1)

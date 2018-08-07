@@ -24,12 +24,12 @@ def execute(filters=None):
 	columns = [
 		"Machine No.:Link/Asset:100",
 		"Site:Link/Warehouse:100",
-		"Total Expected Coins:Int:100",
-		"Total Counted Coins:Int:100",
-		"Error:Int:100",
+		"Total Expected Coins:Currency:100",
+		"Total Counted Coins:Currency:100",
+		"Error:Currency:100",
 		"No of Collections::100",
 		"AVG Coins per Collection::150"
 	]
 
-	data = frappe.db.sql(sqlq)
+	data = frappe.db.sql(sqlq,as_list=1)
 	return columns, data
