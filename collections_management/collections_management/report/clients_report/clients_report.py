@@ -10,16 +10,16 @@ def execute(filters=None):
 	if not filters.site:
 		filters.site = ""
 	sqlq = """select 
-			a.site as "Site:Link/Warehouse:100",
-			a.creation as "Collected On :Date:150",
-			a.machine_number as "Machine No.:Link/Asset:100",
-			a.previous_reading as "Previous Reading::100",
-			a.meter_reading as "Meter Reading::100",	
-			b.coin_count as "Counted Coins:Int:100"
+			a.site,
+			a.creation,
+			a.machine_number,
+			a.previous_reading,
+			a.meter_reading,	
+			b.coin_count
 		from `tabCollection Entry` a right join `tabCollection Counting` b 
 		ON a.name = b.collection_entry
 		where a.machine_number like '%{}%'
-		and a.site like '%{}%'
+		and coalesce(a.site, '<NULL>') like '%{}%'
 		and a.creation BETWEEN '{}' AND '{}'
 		""".format(filters.machine_number,filters.site,filters.from_date,filters.to_date)
 	
@@ -33,6 +33,6 @@ def execute(filters=None):
 		"Counted Coins:Int:100"
 	]
 
-	data = frappe.db.sql(sqlq)
+	data = frappe.db.sql(sqlq, as_list=1)
 	
 	return columns, data
