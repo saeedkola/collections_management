@@ -37,7 +37,7 @@ def execute(filters=None):
 	
 
 	columns = [
-		"Collected On :Date:150",
+		"Collected On :Datetime:150",
 		"Bag No.:Link/Collection Entry:100",
 		"Machine No.:Link/Asset:100",
 		"Site:Link/Warehouse:100",
@@ -48,7 +48,7 @@ def execute(filters=None):
 		"Error:Currency:100",
 		"Collected By::100",
 		"Counted By::100",
-		"Counted On:Date:150"
+		"Counted On:Datetime:150"
 	]
 
 	data = frappe.db.sql(sqlq,as_list=1)
