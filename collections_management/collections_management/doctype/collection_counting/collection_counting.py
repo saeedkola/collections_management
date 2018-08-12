@@ -66,3 +66,11 @@ def collection_entry_query(doctype, txt, searchfield, start, page_len, filters):
 			.format(condition=condition, match_condition=get_match_cond(doctype), key=searchfield), {
 				'txt': "%%%s%%" % frappe.db.escape(txt)
 			})
+
+@frappe.whitelist()
+def cancel_stock_entry(name):
+	doc = frappe.get_doc("Stock Entry",name)
+
+	doc.docstatus = 2
+	return doc.save()
+
