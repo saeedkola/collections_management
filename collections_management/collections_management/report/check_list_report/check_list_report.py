@@ -19,7 +19,7 @@ def execute(filters=None):
 				from `tabCollection Entry` a
 				left join `tabCollection Counting` b
 				ON a.name = b.collection_entry
-				where a.site like '%{}%' AND a.creation BETWEEN '{}' AND '{}'
+				where a.site like '%{}%' AND a.site != 'Machines - TSU' AND a.docstatus == 1 AND a.creation BETWEEN '{}' AND '{}'
 
 			) q2
 			ON q2.machine_number = q1.name
