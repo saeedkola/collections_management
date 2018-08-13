@@ -22,6 +22,7 @@ def execute(filters=None):
 		from `tabCollection Entry`
 		where site like '%{}%'
 		and owner like '%{}%'
+		and docstatus = 1
 		and creation BETWEEN '{}' AND '{}'
 		""".format(filters.site,filters.collected_by,filters.from_date,filters.to_date)
 	if filters.machine_number:
