@@ -27,5 +27,19 @@ frappe.ui.form.on('Collections Settings', {
 				}
 			}
 		});
+		frm.set_query("commissions_payable",function(){
+			return {
+				"filters":{
+					"account_type":"Payable"
+				}
+			}
+		});
+		frm.set_query("commissions_account",function(){
+			return {
+				"filters":{
+					"account_type":"Expense Account"
+				}
+			}
+		});
 	}
 });
