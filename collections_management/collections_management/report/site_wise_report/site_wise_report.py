@@ -37,7 +37,7 @@ def execute(filters=None):
 		"Total Expected Coins:Int:100",
 		"Total Counted Coins:Int:100",
 		"Error:Int:100",
-		"No of Collections::100",
+		"No of Collections:Int:100",
 		"No of Machines:Int:100",
 		"AVG Coins per Collection:Float:100"		
 	]
