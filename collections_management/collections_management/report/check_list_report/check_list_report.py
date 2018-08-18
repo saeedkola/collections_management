@@ -8,28 +8,25 @@ def execute(filters=None):
 	if not filters.site:
 		filters.site = ""
 
-	sqlq = """select name, q1.warehouse, collected_by,bag_number,counted_by  from
+	sqlq = """select name, q1.warehouse, coalesce(count,0) as count  from
 			(
 				select name,warehouse from tabAsset
 				WHERE warehouse like '%{}%' AND warehouse != 'Machines - TSU'
 			)q1
 			left join
 			(
-				select a.machine_number,a.site,a.owner as collected_by, a.name as bag_number,b.owner as counted_by
+				select a.machine_number, count(machine_number) as count
 				from `tabCollection Entry` a
-				left join `tabCollection Counting` b
-				ON a.name = b.collection_entry
 				where a.site like '%{}%' AND a.site != 'Machines - TSU' AND a.docstatus = 1 AND a.creation BETWEEN '{}' AND '{}'
+				group by machine_number
 
 			) q2
 			ON q2.machine_number = q1.name
-			ORDER BY name DESC""".format(filters.site,filters.site,filters.from_date,filters.to_date)
+			ORDER BY count ASC""".format(filters.site,filters.site,filters.from_date,filters.to_date)
 	columns = [
 		"Machine No.:Link/Asset:100",
 		"Site:Link/Warehouse:100",
-		"Collected By::100",
-		"Bag Number:Link/Collection Entry:100",
-		"Counted By::100"
+		"No. Of Collections:Int:100"
 
 	]
 	data = frappe.db.sql(sqlq,as_list=1)
