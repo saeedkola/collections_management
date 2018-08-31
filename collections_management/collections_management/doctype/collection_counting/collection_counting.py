@@ -53,7 +53,7 @@ class CollectionCounting(AccountsController):
 		
 		ce = frappe.get_doc('Collection Entry',self.collection_entry)
 		site = frappe.get_doc('Warehouse',ce.site)
-		if (party in site) and (percentage in site) :
+		if ('party' in site) and ('percentage' in site) :
 			if site.party and site.percentage:
 				#commissions account entry
 				gl_entries.append(
