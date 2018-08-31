@@ -65,7 +65,7 @@ class CollectionCounting(AccountsController):
 						"cost_center": settings.cost_center,
 						"voucher_no": self.name,
 						"voucher_type": self.doctype,
-						"remarks": "{}\% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
+						"remarks": "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
 					})
 				)
 				#commissions payable entry
@@ -78,8 +78,8 @@ class CollectionCounting(AccountsController):
 						"credit" : self.coin_count*site.percentage/100,
 						"credit_in_account_currency": self.coin_count*site.percentage/100,
 						"voucher_no": self.name,
-						"voucher_type": self.doctype
-						"remarks": "{}\% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
+						"voucher_type": self.doctype,
+						"remarks": "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
 
 					})
 				)
