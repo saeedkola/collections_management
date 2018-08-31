@@ -53,36 +53,36 @@ class CollectionCounting(AccountsController):
 		
 		ce = frappe.get_doc('Collection Entry',self.collection_entry)
 		site = frappe.get_doc('Warehouse',ce.site)
-		if ('party' in site) and ('percentage' in site) :
-			if site.party and site.percentage:
-				#commissions account entry
-				gl_entries.append(
-					self.get_gl_dict({
-						"account": settings.commissions_account,
-						"against": site.party,
-						"debit": self.coin_count*site.percentage/100,
-						"debit_in_account_currency": self.coin_count*site.percentage/100,
-						"cost_center": settings.cost_center,
-						"voucher_no": self.name,
-						"voucher_type": self.doctype,
-						"remarks": "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
-					})
-				)
-				#commissions payable entry
-				gl_entries.append(
-					self.get_gl_dict({
-						"account": settings.commissions_payable,
-						"party_type": "Supplier",
-						"party": site.party,
-						"against": settings.commissions_account,
-						"credit" : self.coin_count*site.percentage/100,
-						"credit_in_account_currency": self.coin_count*site.percentage/100,
-						"voucher_no": self.name,
-						"voucher_type": self.doctype,
-						"remarks": "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
+		
+		if site.party and site.percentage:
+			#commissions account entry
+			gl_entries.append(
+				self.get_gl_dict({
+					"account": settings.commissions_account,
+					"against": site.party,
+					"debit": self.coin_count*site.percentage/100,
+					"debit_in_account_currency": self.coin_count*site.percentage/100,
+					"cost_center": settings.cost_center,
+					"voucher_no": self.name,
+					"voucher_type": self.doctype,
+					"remarks": "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
+				})
+			)
+			#commissions payable entry
+			gl_entries.append(
+				self.get_gl_dict({
+					"account": settings.commissions_payable,
+					"party_type": "Supplier",
+					"party": site.party,
+					"against": settings.commissions_account,
+					"credit" : self.coin_count*site.percentage/100,
+					"credit_in_account_currency": self.coin_count*site.percentage/100,
+					"voucher_no": self.name,
+					"voucher_type": self.doctype,
+					"remarks": "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
 
-					})
-				)
+				})
+			)
 		from erpnext.accounts.general_ledger import make_gl_entries
 		make_gl_entries(gl_entries, cancel=(self.docstatus == 2),
 			update_outstanding="Yes", merge_entries=False)		
