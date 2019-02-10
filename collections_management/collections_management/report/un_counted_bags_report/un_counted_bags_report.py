@@ -18,6 +18,7 @@ def execute(filters=None):
 				where t2.name IS NULL 
 				and t1.entry_type = "Collection Entry"
 				and t1.creation BETWEEN '{}' AND '{}'
+				and t1.docstatus = 1
 				and coalesce(t1.site,'<NULL>') like '%{}%' """.format(filters.from_date,filters.to_date,filters.site)
     
 	data = frappe.db.sql(sqlq,as_list=1)

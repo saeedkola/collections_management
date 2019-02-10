@@ -33,6 +33,7 @@ def execute(filters=None):
 		and a.owner like '%{}%'
 		and b.owner like '%{}%'
 		and a.creation BETWEEN '{}' AND '{}'
+		and a.docstatus = 1
 		""".format(filters.machine_number,filters.site,filters.collected_by,filters.counted_by,filters.from_date,filters.to_date)
 	
 
