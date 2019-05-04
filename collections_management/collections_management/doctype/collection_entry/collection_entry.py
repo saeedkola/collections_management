@@ -23,7 +23,7 @@ class CollectionEntry(Document):
 			self.previous_reading = last_transaction[0].meter_reading
 			if self.entry_type == 'Collection Entry':
 				self.coins_expected = self.meter_reading-last_transaction[0].meter_reading
-				if self.coins_expected = 0:
+				if self.coins_expected == 0:
 					frappe.throw('Duplicate Entry')
 			else:
 				self.coins_expected = 0
