@@ -10,20 +10,20 @@ def send_mail():
 		recipients = []
 		for user in settings.notification_users:
 			recipients.append(str(user.user))
-			num_days = settings.uncoll_num_days
-			subject = "{} Days Uncollected Summary".format(num_days)
-			summary = get_warehouse_wise_uncollected_since(num_days,"dict")
-			if summary:
+		num_days = settings.uncoll_num_days
+		subject = "{} Days Uncollected Summary".format(num_days)
+		summary = get_warehouse_wise_uncollected_since(num_days,"dict")
+		if summary:
 
-				options = {
-				"summary" : summary,
-				"num_days": num_days
-				}
+			options = {
+			"summary" : summary,
+			"num_days": num_days
+			}
 
-				message = frappe.render_template('templates/pages/notification_email_template.html',options)
-				frappe.sendmail(recipients=recipients, subject=subject, message=message,now=True)
-			else:
-				print("None")
+			message = frappe.render_template('templates/pages/notification_email_template.html',options)
+			frappe.sendmail(recipients=recipients, subject=subject, message=message,now=True)
+		else:
+			print("None")
 
 
 
