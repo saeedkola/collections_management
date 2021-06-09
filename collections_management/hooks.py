@@ -107,6 +107,13 @@ app_license = "MIT"
 # 		"collections_management.tasks.monthly"
 # 	]
 # }
+scheduler_events = {
+	"cron":{
+		"0 9 * * *":[
+			"collections_management.events.send_mail"
+		]
+	}
+}
 
 # Testing
 # -------

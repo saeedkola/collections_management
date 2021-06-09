@@ -1,0 +1,27 @@
+<h4>{{num_days}} days uncollected summary</h4>
+<style type="text/css">
+	#summary-table td, #summary-table th{
+		border: 1px solid black;
+	}
+	#summary-table{
+		width: 100%;
+		border-collapse: collapse;
+		border: 1px solid black;
+	}
+</style>
+<table id="summary-table">
+	<tr>
+		<th>Site</th>
+		<th>Collected</th>
+		<th>Un Collected</th>
+		<th>Machines on Site</th>
+	</tr>
+	{% for row in summary %}
+		<tr>
+			<td>{{row.site}}</td>
+			<td>{{row.collected}}</td>
+			<td>{{row.uncollected_machines}}</td>
+			<td>{{row.machines_on_site}}</td>
+		</tr>
+	{% endfor %}
+</table>

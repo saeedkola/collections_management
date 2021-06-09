@@ -11,13 +11,13 @@ def execute(filters=None):
 	sqlq = """select name, q1.warehouse, coalesce(count,0) as count  from
 			(
 				select name,warehouse from tabAsset
-				WHERE warehouse like '%{}%' AND warehouse != 'Machines - TSU'
+				WHERE warehouse like '%{}%' AND warehouse not in ('Machines - TSU','DIS-ASSEMBLE - 25 AUGUST - TSU')
 			)q1
 			left join
 			(
 				select a.machine_number, count(machine_number) as count
 				from `tabCollection Entry` a
-				where a.site like '%{}%' AND a.site != 'Machines - TSU' AND a.docstatus = 1 AND a.creation BETWEEN '{}' AND '{}'
+				where a.site like '%{}%' AND a.site not in ('Machines - TSU','DIS-ASSEMBLE - 25 AUGUST - TSU') AND a.docstatus = 1 AND a.creation BETWEEN '{}' AND '{}'
 				group by machine_number
 
 			) q2
