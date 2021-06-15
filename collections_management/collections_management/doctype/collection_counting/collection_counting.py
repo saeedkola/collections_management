@@ -18,9 +18,76 @@ class CollectionCounting(AccountsController):
 		self.expected_count = ce.coins_expected
 		self.error = self.expected_count-self.coin_count
 
-	def on_submit(self):
+	def before_submit(self):
 
-		self.make_gl_entries()
+		# self.make_gl_entries()
+		settings = frappe.get_single('Collections Settings')
+
+		gl_entries =[]
+		gl_entries.append(
+			self.get_gl_dict({
+				"account": settings.cash_account,
+				"debit": self.coin_count #,
+				# "debit_in_account_currency": self.coin_count #,
+				# "voucher_no": self.name,
+				# "voucher_type": self.doctype
+			})
+		)
+		
+		#collections_entry 
+		gl_entries.append(
+			self.get_gl_dict({
+				"account": settings.collections_account,
+				# "against": self.machine_number,
+				"credit": self.coin_count,
+				# "credit_in_account_currency": self.coin_count,
+				"cost_center": settings.cost_center#,
+				# "voucher_no": self.name,
+				# "voucher_type": self.doctype
+			})
+		)
+		remarks = ""
+		ce = frappe.get_doc('Collection Entry',self.collection_entry)
+		site = frappe.get_doc('Warehouse',ce.site)
+		remarks
+		if site.party and site.percentage:
+			#commissions account entry
+			gl_entries.append(
+				self.get_gl_dict({
+					"account": settings.commissions_account,
+					"debit": self.coin_count*site.percentage/100,
+					"cost_center": settings.cost_center
+				})
+			)
+			#commissions payable entry
+			gl_entries.append(
+				self.get_gl_dict({
+					"account": settings.commissions_payable,
+					"party_type": "Supplier",
+					"party": site.party,
+					"credit" : self.coin_count*site.percentage/100					
+				})
+			)
+			remarks = "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
+
+		je = frappe.get_doc({
+			"doctype": "Journal Entry",
+			"entry_type": "Journal Entry",
+			"posting_date": self.posting_date,
+			"company": self.company,
+			"accounts": gl_entries,
+			"user_remark": remarks
+		})
+
+		# je.accounts = gl_entries
+
+		je.save(ignore_permissions=True)
+		je.submit()
+
+		self.journal_entry = je.name
+
+
+
 		
 	def make_gl_entries(self):
 		settings = frappe.get_single('Collections Settings')
@@ -86,8 +153,18 @@ class CollectionCounting(AccountsController):
 		from erpnext.accounts.general_ledger import make_gl_entries
 		make_gl_entries(gl_entries, cancel=(self.docstatus == 2),
 			update_outstanding="Yes", merge_entries=False)		
+	
 	def on_cancel(self):
-		delete_gl_entries(voucher_type=self.doctype, voucher_no=self.name)
+		if self.journal_entry:
+			je = frappe.get_doc("Journal Entry", self.journal_entry)
+			je.docstatus = 2
+			je.save(ignore_permissions=True)
+		
+	def on_trash():
+		# Need to do this
+		pass 
+
+
 
 
 @frappe.whitelist()
