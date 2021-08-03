@@ -49,26 +49,26 @@ class CollectionCounting(AccountsController):
 		remarks = ""
 		ce = frappe.get_doc('Collection Entry',self.collection_entry)
 		site = frappe.get_doc('Warehouse',ce.site)
-		remarks
-		if site.party and site.percentage:
-			#commissions account entry
-			gl_entries.append(
-				self.get_gl_dict({
-					"account": settings.commissions_account,
-					"debit": self.coin_count*site.percentage/100,
-					"cost_center": settings.cost_center
-				})
-			)
-			#commissions payable entry
-			gl_entries.append(
-				self.get_gl_dict({
-					"account": settings.commissions_payable,
-					"party_type": "Supplier",
-					"party": site.party,
-					"credit" : self.coin_count*site.percentage/100					
-				})
-			)
-			remarks = "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
+		for sc in site.site_commissions:
+			if sc.party and sc.percentage:
+				#commissions account entry
+				gl_entries.append(
+					self.get_gl_dict({
+						"account": settings.commissions_account,
+						"debit": self.coin_count*sc.percentage/100,
+						"cost_center": settings.cost_center
+					})
+				)
+				#commissions payable entry
+				gl_entries.append(
+					self.get_gl_dict({
+						"account": settings.commissions_payable,
+						"party_type": "Supplier",
+						"party": sc.party,
+						"credit" : self.coin_count*sc.percentage/100					
+					})
+				)
+				remarks = "{} collected from Machine Number {} Bag Number {}".format(self.coin_count, ce.machine_number, self.collection_entry)
 
 		je = frappe.get_doc({
 			"doctype": "Journal Entry",
