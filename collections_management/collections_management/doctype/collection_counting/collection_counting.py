@@ -161,9 +161,10 @@ class CollectionCounting(AccountsController):
 			je.docstatus = 2
 			je.save(ignore_permissions=True)
 		
-	def on_trash():
+	def on_trash(self):
 		# Need to do this
-		pass 
+		if self.journal_entry:
+			je = frappe.delete_doc("Journal Entry", self.journal_entry)
 
 
 
