@@ -22,12 +22,13 @@ class CollectionCounting(AccountsController):
 
 		# self.make_gl_entries()
 		settings = frappe.get_single('Collections Settings')
+		coin_value = settings.coin_value
 
 		gl_entries =[]
 		gl_entries.append(
 			self.get_gl_dict({
 				"account": settings.cash_account,
-				"debit": self.coin_count #,
+				"debit": self.coin_count*coin_value #,
 				# "debit_in_account_currency": self.coin_count #,
 				# "voucher_no": self.name,
 				# "voucher_type": self.doctype
@@ -39,7 +40,7 @@ class CollectionCounting(AccountsController):
 			self.get_gl_dict({
 				"account": settings.collections_account,
 				# "against": self.machine_number,
-				"credit": self.coin_count,
+				"credit": self.coin_count*coin_value,
 				# "credit_in_account_currency": self.coin_count,
 				"cost_center": settings.cost_center#,
 				# "voucher_no": self.name,
@@ -55,7 +56,7 @@ class CollectionCounting(AccountsController):
 				gl_entries.append(
 					self.get_gl_dict({
 						"account": settings.commissions_account,
-						"debit": self.coin_count*sc.percentage/100,
+						"debit": self.coin_count*coin_value*sc.percentage/100,
 						"cost_center": settings.cost_center
 					})
 				)
@@ -65,10 +66,10 @@ class CollectionCounting(AccountsController):
 						"account": settings.commissions_payable,
 						"party_type": "Supplier",
 						"party": sc.party,
-						"credit" : self.coin_count*sc.percentage/100					
+						"credit" : self.coin_count*coin_value*sc.percentage/100					
 					})
 				)
-				remarks = "{} collected from Machine Number {} Bag Number {}".format(self.coin_count, ce.machine_number, self.collection_entry)
+				remarks = "{} collected from Machine Number {} Bag Number {}".format(self.coin_count*coin_value, ce.machine_number, self.collection_entry)
 
 		je = frappe.get_doc({
 			"doctype": "Journal Entry",
