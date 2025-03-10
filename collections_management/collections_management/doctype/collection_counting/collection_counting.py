@@ -9,7 +9,7 @@ from frappe import _
 from frappe.utils import money_in_words
 from frappe.utils.csvutils import getlink
 from erpnext.controllers.accounts_controller import AccountsController
-from erpnext.accounts.general_ledger import delete_gl_entries
+# from erpnext.accounts.general_ledger import delete_gl_entries
 
 class CollectionCounting(AccountsController):
 	def validate(self):
@@ -18,76 +18,76 @@ class CollectionCounting(AccountsController):
 		self.expected_count = ce.coins_expected
 		self.error = self.expected_count-self.coin_count
 
-	def on_submit(self):
+	# def on_submit(self):
 
-		self.make_gl_entries()
+	# 	self.make_gl_entries()
 		
-	def make_gl_entries(self):
-		settings = frappe.get_single('Collections Settings')
-		gl_entries = []
+	# def make_gl_entries(self):
+	# 	settings = frappe.get_single('Collections Settings')
+	# 	gl_entries = []
 		
-		#cash entry
-		gl_entries.append(
-			self.get_gl_dict({
-				"account": settings.cash_account,
-				"against": settings.collections_account,
-				"debit": self.coin_count,
-				"debit_in_account_currency": self.coin_count,
-				"voucher_no": self.name,
-				"voucher_type": self.doctype
-			})
-		)
+	# 	#cash entry
+	# 	gl_entries.append(
+	# 		self.get_gl_dict({
+	# 			"account": settings.cash_account,
+	# 			"against": settings.collections_account,
+	# 			"debit": self.coin_count,
+	# 			"debit_in_account_currency": self.coin_count,
+	# 			"voucher_no": self.name,
+	# 			"voucher_type": self.doctype
+	# 		})
+	# 	)
 		
-		#collections_entry 
-		gl_entries.append(
-			self.get_gl_dict({
-				"account": settings.collections_account,
-				"against": self.machine_number,
-				"credit": self.coin_count,
-				"credit_in_account_currency": self.coin_count,
-				"cost_center": settings.cost_center,
-				"voucher_no": self.name,
-				"voucher_type": self.doctype
-			})
-		)			
+	# 	#collections_entry 
+	# 	gl_entries.append(
+	# 		self.get_gl_dict({
+	# 			"account": settings.collections_account,
+	# 			"against": self.machine_number,
+	# 			"credit": self.coin_count,
+	# 			"credit_in_account_currency": self.coin_count,
+	# 			"cost_center": settings.cost_center,
+	# 			"voucher_no": self.name,
+	# 			"voucher_type": self.doctype
+	# 		})
+	# 	)			
 		
-		ce = frappe.get_doc('Collection Entry',self.collection_entry)
-		site = frappe.get_doc('Warehouse',ce.site)
+	# 	ce = frappe.get_doc('Collection Entry',self.collection_entry)
+	# 	site = frappe.get_doc('Warehouse',ce.site)
 		
-		if site.party and site.percentage:
-			#commissions account entry
-			gl_entries.append(
-				self.get_gl_dict({
-					"account": settings.commissions_account,
-					"against": site.party,
-					"debit": self.coin_count*site.percentage/100,
-					"debit_in_account_currency": self.coin_count*site.percentage/100,
-					"cost_center": settings.cost_center,
-					"voucher_no": self.name,
-					"voucher_type": self.doctype,
-					"remarks": "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
-				})
-			)
-			#commissions payable entry
-			gl_entries.append(
-				self.get_gl_dict({
-					"account": settings.commissions_payable,
-					"party_type": "Supplier",
-					"party": site.party,
-					"against": settings.commissions_account,
-					"credit" : self.coin_count*site.percentage/100,
-					"credit_in_account_currency": self.coin_count*site.percentage/100,
-					"voucher_no": self.name,
-					"voucher_type": self.doctype,
-					"remarks": "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
+	# 	if site.party and site.percentage:
+	# 		#commissions account entry
+	# 		gl_entries.append(
+	# 			self.get_gl_dict({
+	# 				"account": settings.commissions_account,
+	# 				"against": site.party,
+	# 				"debit": self.coin_count*site.percentage/100,
+	# 				"debit_in_account_currency": self.coin_count*site.percentage/100,
+	# 				"cost_center": settings.cost_center,
+	# 				"voucher_no": self.name,
+	# 				"voucher_type": self.doctype,
+	# 				"remarks": "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
+	# 			})
+	# 		)
+	# 		#commissions payable entry
+	# 		gl_entries.append(
+	# 			self.get_gl_dict({
+	# 				"account": settings.commissions_payable,
+	# 				"party_type": "Supplier",
+	# 				"party": site.party,
+	# 				"against": settings.commissions_account,
+	# 				"credit" : self.coin_count*site.percentage/100,
+	# 				"credit_in_account_currency": self.coin_count*site.percentage/100,
+	# 				"voucher_no": self.name,
+	# 				"voucher_type": self.doctype,
+	# 				"remarks": "{}% of {} collected from Machine Number {} Bag Number {}".format(site.percentage, self.coin_count, ce.machine_number, self.collection_entry)
 
-				})
-			)
-		from erpnext.accounts.general_ledger import make_gl_entries
-		make_gl_entries(gl_entries, cancel=(self.docstatus == 2),
-			update_outstanding="Yes", merge_entries=False)		
-	def on_cancel(self):
-		delete_gl_entries(voucher_type=self.doctype, voucher_no=self.name)
+	# 			})
+	# 		)
+	# 	from erpnext.accounts.general_ledger import make_gl_entries
+	# 	make_gl_entries(gl_entries, cancel=(self.docstatus == 2),
+	# 		update_outstanding="Yes", merge_entries=False)		
+	# def on_cancel(self):
+	# 	delete_gl_entries(voucher_type=self.doctype, voucher_no=self.name)
 
 
 @frappe.whitelist()
