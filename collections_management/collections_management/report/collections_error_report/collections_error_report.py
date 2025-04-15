@@ -41,7 +41,7 @@ def execute(filters=None):
 		"Collected On :Datetime:150",
 		"Bag No.:Link/Collection Entry:100",
 		"Machine No.:Link/Asset:100",
-		"Site:Link/Warehouse:100",
+		"Site:Link/Location:100",
 		"Meter Reading::100",
 		"Previous Reading::100",
 		"Expected Coins:Currency:100",

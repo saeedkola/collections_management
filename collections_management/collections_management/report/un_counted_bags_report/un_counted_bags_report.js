@@ -8,7 +8,7 @@ frappe.query_reports["Un-Counted Bags Report"] = {
         	"fieldname"	:"site",
         	"label"		: __("Site"),
         	"fieldtype"	: "Link",
-        	"options"	: "Warehouse"
+        	"options"	: "Location"
         },
         {
         	"fieldname"	:"from_date",

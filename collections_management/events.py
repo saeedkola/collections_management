@@ -12,7 +12,7 @@ def send_mail():
 			recipients.append(str(user.user))
 		num_days = settings.uncoll_num_days
 		subject = "{} Days Uncollected Summary".format(num_days)
-		summary = get_warehouse_wise_uncollected_since(num_days,"dict")
+		summary = get_location_wise_uncollected_since(num_days,"dict")
 		if summary:
 
 			options = {
@@ -28,14 +28,19 @@ def send_mail():
 
 
 def get_uncollected_machines_since(no_of_days=15,response_format="list",site_filter=None):
-	sqlq = """select name, warehouse, LastCollected, datediff(curdate(), LastCollected) numDays from `tabAsset`
+	excluded_locations = []
+	settings = frappe.get_single("Collections Settings")
+	for location in settings.excluded_locations:
+		excluded_locations.append(location.location)
+	excluded_locations = "'{}'".format("','".join(excluded_locations))
+	sqlq = """select name, location, LastCollected, datediff(curdate(), LastCollected) numDays from `tabAsset`
 			left join (
 				select machine_number, max(creation) LastCollected from `tabCollection Entry`
 				group by machine_number) La
 			on La.machine_number = `tabAsset`.name
-			where warehouse not in ('Machines - TSU','DIS-ASSEMBLE - 25 AUGUST - TSU')"""
+			where location not in ({excluded_locations})""".format(excluded_locations=excluded_locations)
 	if site_filter:
-		sqlq = sqlq + """ and warehouse='{}'""".format(site_filter)
+		sqlq = sqlq + """ and location='{}'""".format(site_filter,excluded_locations=excluded_locations)
 
 	sqlq = sqlq + """ 
 			and  `tabAsset`.creation not between DATE_SUB(NOW(), INTERVAL {no_days} DAY) and now()
@@ -50,22 +55,29 @@ def get_uncollected_machines_since(no_of_days=15,response_format="list",site_fil
 
 	return response
 
-def get_warehouse_wise_uncollected_since(no_of_days=15, response_format="list"):
-	sqlq = """select t1.warehouse site,(site_machines-count(t1.warehouse)) collected, count(t1.warehouse) uncollected_machines, t2.site_machines machines_on_site from `tabAsset` t1
+def get_location_wise_uncollected_since(no_of_days=15, response_format="list"):
+	excluded_locations = []
+	settings = frappe.get_single("Collections Settings")
+	for location in settings.excluded_locations:
+		excluded_locations.append(location.location)
+	
+	excluded_locations = "'{}'".format("','".join(excluded_locations))
+	sqlq = """select t1.location site,(site_machines-count(t1.location)) collected, count(t1.location) uncollected_machines, t2.site_machines machines_on_site from `tabAsset` t1
 				left join 
 					(
-						select warehouse, count(warehouse) site_machines from tabAsset
-						group by warehouse
+						select location, count(location) site_machines from tabAsset
+						group by location
 					) t2
-				on t1.warehouse = t2.warehouse
-				where t1.warehouse not in ('Machines - TSU', 'DIS-ASSEMBLE - 25 AUGUST - TSU') 
+				on t1.location = t2.location
+				where t1.location not in ({excluded_locations}) 
 				and  t1.creation not between DATE_SUB(NOW(), INTERVAL {no_days} DAY) and now()
 				and name not in 
 					(
 						select distinct machine_number from `tabCollection Entry` where creation between DATE_SUB(NOW(), INTERVAL {no_days} DAY) and now()
 				    )
-				group by t1.warehouse
-				order by collected DESC, uncollected_machines desc;""".format(no_days=no_of_days)
+				group by t1.location
+				order by collected DESC, uncollected_machines desc;""".format(no_days=no_of_days,excluded_locations=excluded_locations)
+	print(sqlq)
 	if response_format=="list":
 		response = frappe.db.sql(sqlq,as_list=1)
 	elif response_format == "dict":

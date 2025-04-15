@@ -11,7 +11,7 @@ def execute(filters=None):
 		filters.num_days = 15
 	data = get_warehouse_wise_uncollected_since(no_of_days=filters.num_days, response_format="list")
 	columns = [
-		"Site:Link/Warehouse:200",
+		"Site:Link/Location:200",
 		"Collected #:Int:100",
 		"Uncollected #:Int:100",
 		"Total #:Int:100"
