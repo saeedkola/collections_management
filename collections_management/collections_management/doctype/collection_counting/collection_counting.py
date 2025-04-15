@@ -16,7 +16,7 @@ class CollectionCounting(AccountsController):
 		ce = frappe.get_doc('Collection Entry',self.collection_entry)
 		self.machine_number = ce.machine_number
 		self.expected_count = ce.coins_expected
-		self.error = self.expected_count-self.coin_count
+		self.error = self.expected_count-self.coin_count+self.commissions_paid
 
 	# def on_submit(self):
 
