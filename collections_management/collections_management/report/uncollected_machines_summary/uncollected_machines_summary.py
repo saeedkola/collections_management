@@ -3,13 +3,13 @@
 
 from __future__ import unicode_literals
 import frappe
-from collections_management.events import get_warehouse_wise_uncollected_since
+from collections_management.events import get_location_wise_uncollected_since
 
 
 def execute(filters=None):
 	if not filters.num_days:
 		filters.num_days = 15
-	data = get_warehouse_wise_uncollected_since(no_of_days=filters.num_days, response_format="list")
+	data = get_location_wise_uncollected_since(no_of_days=filters.num_days, response_format="list")
 	columns = [
 		"Site:Link/Location:200",
 		"Collected #:Int:100",
