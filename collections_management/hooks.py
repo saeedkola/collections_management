@@ -39,7 +39,7 @@ app_license = "MIT"
 
 # website user home page (by Role)
 # role_home_page = {
-#	"Role": "home_page"
+# 	"Role": "home_page"
 # }
 
 # Website user home page (by function)
@@ -84,7 +84,7 @@ app_license = "MIT"
 # 		"on_update": "method",
 # 		"on_cancel": "method",
 # 		"on_trash": "method"
-#	}
+# 	}
 # }
 
 # Scheduled Tasks
@@ -127,3 +127,6 @@ scheduler_events = {
 # 	"frappe.desk.doctype.event.event.get_events": "collections_management.event.get_events"
 # }
 
+fixtures = [
+    {"dt": "Custom Field", "filters": [["module", "=", "Collections Management"]]},
+]

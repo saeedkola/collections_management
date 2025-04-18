@@ -23,6 +23,10 @@ frappe.query_reports["Check List Report"] = {
         	"fieldtype"	: "Datetime",
         	"reqd"		: 1,
         	"default"	: frappe.datetime.add_days(frappe.datetime.get_today(),1)
-        }
+        },
+		{"fieldname"	:"no_of_collections",
+			"fieldtype"	: "Int",
+			"label"		: __("No of Collections"),
+		}
 	]
 }
