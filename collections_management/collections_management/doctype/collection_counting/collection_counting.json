@@ -23,7 +23,7 @@
   {
    "fieldname": "barcode",
    "fieldtype": "Data",
-   "label": "Scan Barcode Here"
+   "label": "Scan Barcode"
   },
   {
    "fieldname": "collection_entry",
@@ -97,7 +97,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2025-04-15 10:25:22.753457",
+ "modified": "2025-04-18 14:08:17.882845",
  "modified_by": "Administrator",
  "module": "Collections Management",
  "name": "Collection Counting",
