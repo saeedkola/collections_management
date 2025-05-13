@@ -129,4 +129,12 @@ scheduler_events = {
 
 fixtures = [
     {"dt": "Custom Field", "filters": [["module", "=", "Collections Management"]]},
+    {"dt": "Property Setter", "filters": [["module", "=", "Collections Management"]]},
 ]
+
+doctype_js = {
+    "Asset Movement": "public/js/asset_movement.js"
+}
+
+
+
