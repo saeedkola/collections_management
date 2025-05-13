@@ -1,0 +1,40 @@
+{
+    "doctype": "Report",
+    "name": "Asset Movement Report",
+    "ref_doctype": "Asset Movement",
+    "report_type": "Script Report",
+    "is_standard": "Yes",
+    "module": "Collections Management",
+    "add_total_row": 1,
+    "filters": [
+        {
+            "fieldname": "from_date",
+            "label": "From Date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "to_date",
+            "label": "To Date",
+            "fieldtype": "Date"
+        },
+        {
+            "fieldname": "machine_no",
+            "label": "Machine No",
+            "fieldtype": "Link",
+            "options": "Asset"
+        },
+        {
+            "fieldname": "target_warehouse",
+            "label": "Target Warehouse",
+            "fieldtype": "Link",
+            "options": "Warehouse"
+        },
+        {
+            "fieldname": "source_warehouse",
+            "label": "Source Warehouse",
+            "fieldtype": "Link",
+            "options": "Warehouse"
+        }
+
+    ]
+}

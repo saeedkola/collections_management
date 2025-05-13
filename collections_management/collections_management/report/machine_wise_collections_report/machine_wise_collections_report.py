@@ -23,7 +23,7 @@ def execute(filters=None):
 
 	columns = [
 		"Machine No.:Link/Asset:100",
-		"Site:Link/Warehouse:100",
+		"Site:Link/Location:100",
 		"Total Expected Coins:Currency:100",
 		"Total Counted Coins:Currency:100",
 		"Error:Currency:100",
