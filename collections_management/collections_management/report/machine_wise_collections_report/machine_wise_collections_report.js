@@ -8,7 +8,7 @@ frappe.query_reports["Machine-Wise Collections Report"] = {
         	"fieldname"	:"site",
         	"label"		: __("Site"),
         	"fieldtype"	: "Link",
-        	"options"	: "Location"
+        	"options"	: "Warehouse"
         },
         {
         	"fieldname"	:"from_date",

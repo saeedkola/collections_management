@@ -8,7 +8,7 @@ frappe.query_reports["Uncollected Machines Report"] = {
         	"fieldname"	:"site",
         	"label"		: __("Site"),
         	"fieldtype"	: "Link",
-        	"options"	: "Location"
+        	"options"	: "Warehouse"
         },
         {
         	"fieldname"	:"num_days",

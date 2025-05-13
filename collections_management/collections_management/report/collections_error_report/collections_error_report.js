@@ -14,7 +14,7 @@ frappe.query_reports["Collections Error Report"] = {
         	"fieldname"	:"site",
         	"label"		: __("Site"),
         	"fieldtype"	: "Link",
-        	"options"	: "Location"
+        	"options"	: "Warehouse"
         },
         {
         	"fieldname"	:"from_date",

@@ -6,7 +6,7 @@ import frappe
 
 def execute(filters=None):
 	sqlq = """select 
-	q2.location, 
+	q2.warehouse, 
 	q1.coins_expected, 
 	q1.coin_count, 
 	q1.error, 
@@ -14,7 +14,7 @@ def execute(filters=None):
 	q2.number, 
 	q1.avg_count from
 		(
-		select location,count(name) as number from tabAsset GROUP BY location
+		select warehouse,count(name) as number from tabAsset GROUP BY warehouse
 		)q2
 		left join
 		(
@@ -33,7 +33,7 @@ def execute(filters=None):
 		ON q1.site = q2.warehouse""".format(filters.from_date,filters.to_date)
 
 	columns = [
-		"Site:Link/Location:200",
+		"Site:Link/Warehouse:200",
 		"Total Expected Coins:Int:100",
 		"Total Counted Coins:Int:100",
 		"Error:Int:100",

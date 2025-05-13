@@ -25,7 +25,7 @@ def execute(filters=None):
 	
 
 	columns = [
-		"Site:Link/Location:100",
+		"Site:Link/Warehouse:100",
 		"Collected On :Datetime:150",
 		"Machine No.:Link/Asset:100",
 		"Previous Reading::100",

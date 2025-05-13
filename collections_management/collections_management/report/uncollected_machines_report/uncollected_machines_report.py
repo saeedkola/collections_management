@@ -14,7 +14,7 @@ def execute(filters=None):
 	data = get_uncollected_machines_since(no_of_days=filters.num_days,response_format="list",site_filter=filters.site)
 	columns = [
 		"Machine No.:Link/Asset:100",
-		"Site:Link/Location:200",
+		"Site:Link/Warehouse:200",
 		"Last Collected:Datetime:150",
 		"Days since Last Collected:Int:100"
 
