@@ -14,11 +14,14 @@ frappe.ui.form.on('Collection Counting', {
 	}
 });
 
-frappe.ui.form.on("Collection Counting", "onload", function(frm) {
-    cur_frm.set_query("collection_entry", function() {
-        return {
-        	query: "collections_management.collections_management.doctype.collection_counting.collection_counting.collection_entry_query"  
-        };
-    });
+frappe.ui.form.on('Collection Counting', {
+    onload(frm) {
+        // Limit the link‑field list to un‑counted collection entries
+        frm.set_query('collection_entry', () => {
+            return {
+                query: 'collections_management.api.get_uncounted_collection_entries'
+            };
+        });
+    }
 });
 
