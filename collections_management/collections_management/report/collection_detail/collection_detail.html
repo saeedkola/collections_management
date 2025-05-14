@@ -1,0 +1,28 @@
+<div>
+    <h1>Collection Details</h1>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Sl.No</th>
+                <th>Machine Number</th>
+                <th>Remarks</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% var id =0; %}
+            {% for(var i=0, l=data.length; i<l; i++) { %}
+            {% id++; %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>{{ data[i].name}}</td>
+                    <td></td>
+                </tr>
+            {% if (data[i].location != data[i+1].location) %}
+
+
+            {%endif%}
+            {% endfor%}
+        </tbody>
+
+
+</div>
