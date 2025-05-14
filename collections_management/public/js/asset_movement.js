@@ -6,5 +6,8 @@ frappe.ui.form.on('Asset Movement', {
         if (!frm.doc.custom_user) {
             frappe.throw(__('User is required.'));
         }
+        if (!frm.doc.custom_attachment) {
+            frappe.throw(__('Attachment is required.'));
+        }
     }
-});
+});wsl
