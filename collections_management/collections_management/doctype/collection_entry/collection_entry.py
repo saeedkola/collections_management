@@ -23,6 +23,8 @@ class CollectionEntry(Document):
 			# if not last_transaction:
 			# 	frappe.throw("Cannot find previous")
 			if last_transaction:
+				if self.meter_reading == last_transaction[0].meter_reading:
+					frappe.throw('Duplicate Entry')
 				self.previous_reading = last_transaction[0].meter_reading
 				if self.entry_type == 'Collection Entry':
 					self.coins_expected = self.meter_reading-last_transaction[0].meter_reading
