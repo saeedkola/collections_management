@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { font-family: Inter, sans-serif; font-size: 10pt; }
+    h2   { margin: 12px 0 4px; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+    th, td { border: 1px solid #888; padding: 6px; }
+    th { background: #f0f0f0; text-align: left; }
+  </style>
+</head>
+<body>
+  <h1>Collection Details – {{ parent_location }}</h1>
+  <p><strong>Date:</strong> {{ date }}</p>
+
+  {% for loc in data %}
+    <h2>{{ loc.location }}</h2>
+    <table>
+      <thead>
+        <tr>
+          <th style="width: 5%">#</th>
+          <th style="width: 45%">Asset</th>
+          
+          <th style="width: 50%">Remarks</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for idx, asset in enumerate(loc.assets, start=1) %}
+        <tr>
+          <td>{{ idx }}</td>
+          <td>{{ asset.asset_name }}</td>
+          
+          <td></td>   {# blank remarks #}
+        </tr>
+        {% endfor %}
+        {% if not loc.assets %}
+        <tr>
+          <td colspan="4" style="text-align:center;">No serialized assets found</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  {% endfor %}
+</body>
+</html>
