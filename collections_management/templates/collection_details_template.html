@@ -3,11 +3,64 @@
 <head>
   <meta charset="utf-8">
   <style>
-    body { font-family: Inter, sans-serif; font-size: 10pt; }
-    h2   { margin: 12px 0 4px; }
-    table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-    th, td { border: 1px solid #888; padding: 6px; }
-    th { background: #f0f0f0; text-align: left; }
+    body {
+      font-family: 'Inter', sans-serif;
+      font-size: 10pt;
+      color: #333;
+      margin: 20px;
+    }
+
+    h1 {
+      font-size: 18pt;
+      margin-bottom: 5px;
+    }
+
+    h2 {
+      font-size: 14pt;
+      margin: 20px 0 10px;
+      color: #2c3e50;
+    }
+
+    p {
+      margin: 5px 0 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 30px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 10px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      font-weight: 600;
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #fafafa;
+    }
+
+    tbody tr:last-child td {
+      border-bottom: 2px solid #aaa;
+    }
+
+    .label-row td {
+      background-color: #f4f6f7;
+      font-weight: 500;
+    }
+
+    .centered {
+      text-align: center;
+      font-style: italic;
+      color: #777;
+    }
   </style>
 </head>
 <body>
@@ -21,7 +74,6 @@
         <tr>
           <th style="width: 5%">#</th>
           <th style="width: 45%">Asset</th>
-          
           <th style="width: 50%">Remarks</th>
         </tr>
       </thead>
@@ -30,15 +82,28 @@
         <tr>
           <td>{{ idx }}</td>
           <td>{{ asset.asset_name }}</td>
-          
           <td></td>   {# blank remarks #}
         </tr>
         {% endfor %}
         {% if not loc.assets %}
         <tr>
-          <td colspan="4" style="text-align:center;">No serialized assets found</td>
+          <td colspan="3" class="centered">No serialized assets found</td>
         </tr>
         {% endif %}
+
+        <!-- Add total, commission %, and commission paid rows -->
+        <tr class="label-row">
+          <td colspan="2"><strong>Total</strong></td>
+          <td></td>
+        </tr>
+        <tr class="label-row">
+          <td colspan="2"><strong>Commission Percentage</strong></td>
+          <td></td>
+        </tr>
+        <tr class="label-row">
+          <td colspan="2"><strong>Commission Paid</strong></td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
   {% endfor %}
