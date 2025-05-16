@@ -10,4 +10,4 @@ frappe.ui.form.on('Asset Movement', {
             frappe.throw(__('Attachment is required.'));
         }
     }
-});wsl
+});
