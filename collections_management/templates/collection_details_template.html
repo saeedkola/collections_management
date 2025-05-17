@@ -1,111 +1,137 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="utf-8">
   <style>
     body {
       font-family: 'Inter', sans-serif;
-      font-size: 10pt;
-      color: #333;
-      margin: 20px;
-    }
-
-    h1 {
-      font-size: 18pt;
-      margin-bottom: 5px;
-    }
-
-    h2 {
-      font-size: 14pt;
-      margin: 20px 0 10px;
+      font-size: 11pt;
       color: #2c3e50;
-    }
-
-    p {
-      margin: 5px 0 20px;
+      margin: 40px;
+      background-color: #fdfdfd;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-bottom: 30px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+      margin-bottom: 40px;
+      border: 1px solid #adb5bd;
     }
 
-    th, td {
-      border: 1px solid #ccc;
-      padding: 8px 10px;
+    th,
+    td {
+      border: 1px solid #adb5bd;
+      padding: 10px 14px;
       text-align: left;
     }
 
     th {
-      background-color: #f8f9fa;
+      background-color: #f1f3f5;
       font-weight: 600;
+      color: #212529;
     }
+
+    thead {
+      display: table-header-group;
+    }
+
+    @media print {
+      thead {
+        display: table-header-group;
+      }
+    }
+
 
     tbody tr:nth-child(even) {
-      background-color: #fafafa;
-    }
-
-    tbody tr:last-child td {
-      border-bottom: 2px solid #aaa;
+      background-color: #f9f9f9;
     }
 
     .label-row td {
-      background-color: #f4f6f7;
-      font-weight: 500;
+      background-color: #f8f9fa;
+      font-weight: 600;
     }
 
     .centered {
       text-align: center;
       font-style: italic;
-      color: #777;
+      color: #6c757d;
+    }
+
+    .header-title {
+      font-size: 18pt;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+
+    .location-header {
+      font-size: 13pt;
+      font-weight: bold;
+      background-color: #e2e6ea;
+      color: #343a40;
+    }
+
+    h1 {
+      font-size: 28pt;
+      font-weight: bold;
+      font-family: 'Inter', sans-serif;
+      color: #1c1e21;
+      margin-bottom: 30px;
+      border-bottom: 2px solid #ced4da;
+      padding-bottom: 10px;
     }
   </style>
 </head>
+
 <body>
+
   <h1>Collection Details – {{ parent_location }}</h1>
-  <p><strong>Date:</strong> {{ date }}</p>
 
   {% for loc in data %}
-    <h2>{{ loc.location }}</h2>
-    <table>
-      <thead>
-        <tr>
-          <th style="width: 5%">#</th>
-          <th style="width: 45%">Asset</th>
-          <th style="width: 50%">Remarks</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for idx, asset in enumerate(loc.assets, start=1) %}
-        <tr>
-          <td>{{ idx }}</td>
-          <td>{{ asset.asset_name }}</td>
-          <td></td>   {# blank remarks #}
-        </tr>
-        {% endfor %}
-        {% if not loc.assets %}
-        <tr>
-          <td colspan="3" class="centered">No serialized assets found</td>
-        </tr>
-        {% endif %}
+  <table>
+    <thead>
+      <tr>
+        <th colspan="2" class="location-header">{{ loc.location }}</th>
+        <th colspan="1" class="location-header">Date: {{ date }}</th>
+      </tr>
 
-        <!-- Add total, commission %, and commission paid rows -->
-        <tr class="label-row">
-          <td colspan="2"><strong>Total</strong></td>
-          <td></td>
-        </tr>
-        <tr class="label-row">
-          <td colspan="2"><strong>Commission Percentage</strong></td>
-          <td></td>
-        </tr>
-        <tr class="label-row">
-          <td colspan="2"><strong>Commission Paid</strong></td>
-          <td></td>
-        </tr>
-      </tbody>
-    </table>
+      <tr>
+        <th style="width: 5%">#</th>
+        <th style="width: 45%">Asset</th>
+        <th style="width: 50%">Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for idx, asset in enumerate(loc.assets, start=1) %}
+      <tr>
+        <td>{{ idx }}</td>
+        <td>{{ asset.asset_name }}</td>
+        <td></td>
+      </tr>
+      {% endfor %}
+
+      {% if not loc.assets %}
+      <tr>
+        <td colspan="3" class="centered">No serialized assets found</td>
+      </tr>
+      {% endif %}
+
+      <tr class="label-row">
+        <td colspan="2"><strong>Total</strong></td>
+        <td></td>
+      </tr>
+      <tr class="label-row">
+        <td colspan="2"><strong>Commission Percentage</strong></td>
+        <td></td>
+      </tr>
+      <tr class="label-row">
+        <td colspan="2"><strong>Commission Paid</strong></td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
   {% endfor %}
+
 </body>
+
 </html>
