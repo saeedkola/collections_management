@@ -30,7 +30,7 @@ def execute(filters=None):
 		where a.creation BETWEEN '{}' AND '{}'
 		GROUP BY a.site
 		)q1
-		ON q1.site = q2.warehouse""".format(filters.from_date,filters.to_date)
+		ON q1.site = q2.location""".format(filters.from_date,filters.to_date)
 
 	columns = [
 		"Site:Link/Location:200",
