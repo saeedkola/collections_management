@@ -50,7 +50,18 @@ def get_collection_pdf(site: str, date: str):
         "date": formatted_date,
     }
     html = render_template("templates/collection_details_template.html", context)
-    pdf_bytes = get_pdf(html)
+    # pdf_bytes = get_pdf(html)
+    pdf_bytes = get_pdf(
+    html,
+    options={
+        "margin-bottom": "20mm",
+        "footer-center": f"Page [page] of [topage] – {site_doc.name}",
+        "footer-font-size": "9",
+        "footer-spacing": "5"
+    }
+)
+
+
     file_doc = save_file(
         fname=f"Collection_Details_{site_doc.name}_{date}.pdf",
         content=pdf_bytes,
