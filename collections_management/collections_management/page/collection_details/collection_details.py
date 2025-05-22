@@ -1,4 +1,5 @@
 import frappe
+from frappe import _
 from frappe.utils import get_url, get_datetime
 from frappe.utils.pdf import get_pdf
 from frappe.utils.jinja import render_template
@@ -20,7 +21,7 @@ def get_collection_pdf(site: str, date: str):
     # 1️⃣ pull all descendants
     descendants = frappe.get_all(
         "Location",
-        filters={"lft": (">", site_doc.lft), "rgt": ("<", site_doc.rgt)},
+        filters={"lft": (">=", site_doc.lft), "rgt": ("<=", site_doc.rgt)},
         order_by="lft asc",
         pluck="name",
     )
@@ -81,10 +82,11 @@ def get_collection_excel(site: str, date: str):
     # ── collect descendant locations ──
     descendants = frappe.get_all(
         "Location",
-        filters={"lft": (">", site_doc.lft), "rgt": ("<", site_doc.rgt)},
+        filters={"lft": (">=", site_doc.lft), "rgt": ("<=", site_doc.rgt)},
         order_by="lft asc",
         pluck="name",
     )
+    print(descendants)
 
     # ── gather assets, skipping empties ──
     data = []
