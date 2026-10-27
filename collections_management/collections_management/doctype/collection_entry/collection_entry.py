@@ -19,7 +19,8 @@ class CollectionEntry(Document):
 					"name": ("!=", self.name),
 					"docstatus" : 1
 				},
-				order_by = "creation DESC")
+				order_by = "creation DESC",
+				limit = 1)
 			# if not last_transaction:
 			# 	frappe.throw("Cannot find previous")
 			if last_transaction:
